@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riken Patel — Tech Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Cabinet+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F0E8;
+    --bg2: #EDE7D9;
+    --ink: #1A1510;
+    --accent: #FF4D1C;
+    --accent2: #0047FF;
+    --accent3: #00C37D;
+    --yellow: #FFD93D;
+    --card: #FFFFFF;
+    --border: #D4CCBC;
+    --muted: #7A7060;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 2px solid var(--accent2);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+    mix-blend-mode: multiply;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: var(--bg);
+    border-bottom: 2px solid var(--ink);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-decoration: none;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--accent);
+    transition: width 0.25s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    padding: 9rem 3rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-shape {
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 600px; height: 600px;
+    background: var(--yellow);
+    border-radius: 50%;
+    opacity: 0.3;
+    filter: blur(80px);
+    animation: pulse 6s ease-in-out infinite;
+  }
+  .hero-bg-shape2 {
+    position: absolute;
+    bottom: -80px; left: 20%;
+    width: 400px; height: 400px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0.12;
+    filter: blur(60px);
+    animation: pulse 8s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    color: white;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: slideDown 0.6s ease both;
+  }
+  .hero-badge::before {
+    content: '●';
+    font-size: 0.5rem;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    animation: slideUp 0.7s ease 0.1s both;
+  }
+
+  .hero h1 .name-accent { color: var(--accent); }
+  .hero h1 .name-line2 {
+    display: block;
+    color: var(--accent2);
+    -webkit-text-stroke: 2px var(--accent2);
+    color: transparent;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    animation: slideUp 0.7s ease 0.2s both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: slideUp 0.7s ease 0.3s both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--ink);
+    color: white;
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+    border: 2px solid var(--ink);
+  }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--ink);
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: 2px solid var(--ink);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .btn-secondary:hover { background: var(--bg2); transform: translateY(-2px); }
+
+  .hero-right {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: slideUp 0.7s ease 0.4s both;
+  }
+
+  .hero-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .hero-card:hover { transform: translateY(-4px) rotate(-1deg); box-shadow: 6px 6px 0 var(--ink); }
+
+  .hero-card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+
+  .hero-card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .hero-card-accent {
+    position: absolute;
+    top: 0; right: 0;
+    width: 80px; height: 80px;
+    border-radius: 0 20px 0 80px;
+  }
+  .c1 { background: var(--yellow); }
+  .c2 { background: var(--accent); opacity: 0.2; }
+  .c3 { background: var(--accent2); opacity: 0.15; }
+
+  .stat-row {
+    display: flex;
+    gap: 1rem;
+  }
+  .stat-box {
+    flex: 1;
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .stat-box:hover { transform: translateY(-4px); box-shadow: 4px 4px 0 var(--accent); }
+  .stat-box .num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--accent);
+  }
+  .stat-box .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Section layout */
+  section {
+    padding: 6rem 3rem;
+    position: relative;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    margin-left: 1rem;
+  }
+
+  /* Skills section */
+  .skills-section { background: var(--bg2); border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .skill-card:hover { transform: translateY(-6px) rotate(0.5deg); box-shadow: 8px 8px 0 var(--ink); }
+
+  .skill-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .si-red { background: #FFE8E2; }
+  .si-blue { background: #E2EAFF; }
+  .si-green { background: #DFFAF0; }
+  .si-yellow { background: #FFF8D6; }
+
+  .skill-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  .skill-card p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Pill tags */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .tag.red { background: #FFE8E2; border-color: #FF4D1C; color: #FF4D1C; }
+  .tag.blue { background: #E2EAFF; border-color: #0047FF; color: #0047FF; }
+  .tag.green { background: #DFFAF0; border-color: #00C37D; color: #00C37D; }
+
+  /* Experience */
+  .exp-list { display: flex; flex-direction: column; gap: 2rem; }
+
+  .exp-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .exp-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--accent); }
+
+  .exp-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    align-self: center;
+  }
+
+  .exp-content h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .exp-content p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Projects */
+  .projects-section { background: var(--ink); color: white; }
+  .projects-section .section-title { color: white; }
+  .projects-section .section-num { color: var(--yellow); }
+  .projects-section .section-line { background: rgba(255,255,255,0.15); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  .project-card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.09); }
+
+  .project-card .proj-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    display: inline-block;
+    padding: 0.25rem 0.8rem;
+    border-radius: 100px;
+  }
+  .pt-active { background: var(--yellow); color: var(--ink); }
+  .pt-completed { background: var(--accent3); color: white; }
+  .pt-wip { background: var(--accent); color: white; }
+
+  .project-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+    color: white;
+  }
+  .project-card p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+  }
+
+  .proj-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .proj-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.04em;
+  }
+
+  /* Education */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .edu-school {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: sticky;
+    top: 100px;
+  }
+  .edu-school .school-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+  .edu-school .school-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .edu-school .school-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--yellow);
+    color: var(--ink);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .semester-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .semester-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .semester-card:hover { transform: translateX(8px); box-shadow: -8px 0 0 var(--accent); }
+
+  .semester-card .sem-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .semester-card .sem-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .semester-card .sem-grade {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--accent3);
+    background: #DFFAF0;
+    padding: 0.2rem 0.75rem;
+    border-radius: 100px;
+  }
+
+  .sem-courses { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .course {
+    font-size: 0.82rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+  }
+
+  /* Certs */
+  .certs-section { background: var(--bg2); border-top: 2px solid var(--border); }
+
+  .certs-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .cert-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1;
+    min-width: 260px;
+  }
+  .cert-card:hover { transform: translateY(-4px) rotate(-0.5deg); box-shadow: 6px 6px 0 var(--accent2); }
+
+  .cert-icon {
+    width: 48px; height: 48px;
+    background: var(--accent2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .cert-body .cert-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .cert-body .cert-org {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 0.2rem;
+  }
+
+  /* Social / Contact */
+  .contact-section {
+    background: var(--bg);
+    border-top: 2px solid var(--border);
+    text-align: center;
+    padding: 6rem 3rem;
+  }
+
+  .contact-section .big-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+  .contact-section .big-text span { color: var(--accent); }
+
+  .contact-section .sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 3rem;
+  }
+
+  .socials {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 100px;
+    border: 2px solid var(--border);
+    background: var(--card);
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .social-btn:hover { transform: translateY(-3px); }
+  .social-btn.linkedin { border-color: #0A66C2; }
+  .social-btn.linkedin:hover { background: #0A66C2; color: white; box-shadow: 4px 4px 0 #083D74; }
+  .social-btn.instagram { border-color: #E1306C; }
+  .social-btn.instagram:hover { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+  .social-btn.facebook { border-color: #1877F2; }
+  .social-btn.facebook:hover { background: #1877F2; color: white; box-shadow: 4px 4px 0 #0c50a7; }
+  .social-btn.email { border-color: var(--accent); }
+  .social-btn.email:hover { background: var(--accent); color: white; box-shadow: 4px 4px 0 #b5320d; }
+
+  .social-icon { font-size: 1.2rem; }
+
+  .contact-info {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 2px solid var(--border);
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  /* Scroll indicator */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 200;
+    transition: width 0.1s ease;
+  }
+
+  /* Marquee */
+  .marquee-wrap {
+    background: var(--accent);
+    color: white;
+    overflow: hidden;
+    padding: 0.75rem 0;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .marquee-item::before { content: '★'; font-size: 0.6rem; }
+
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; gap: 3rem; }
+    .hero-right { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .edu-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .edu-school { position: relative; top: 0; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+
+  /* Fade in on scroll */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">R<span>.</span>Patel</div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-shape"></div>
+  <div class="hero-bg-shape2"></div>
+
+  <div class="hero-left">
+    <div class="hero-badge">Open to opportunities</div>
+    <h1>
+      Riken<br>
+      <span class="name-accent">Patel</span><br>
+      <span class="name-line2">Networks</span>
+    </h1>
+    <p class="hero-desc">
+      Systems & Network Admin in the making. Linux lover, cloud builder, and code automator — studying at Georgian College, Barrie, ON.
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:rikenpatel2005@gmail.com" class="btn-primary">✉ Get In Touch</a>
+      <a href="#projects" class="btn-secondary">View Projects →</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-card" style="transform: rotate(1.5deg);">
+      <div class="hero-card-accent c1"></div>
+      <div class="hero-card-tag">Current Focus</div>
+      <div class="hero-card-title">🖥 A+ Certification Prep</div>
+    </div>
+    <div class="hero-card" style="transform: rotate(-1deg);">
+      <div class="hero-card-accent c2"></div>
+      <div class="hero-card-tag">Active Build</div>
+      <div class="hero-card-title">⚙️ Backend JS — Twitter & YouTube Clones</div>
+    </div>
+    <div class="hero-card" style="transform: rotate(0.5deg);">
+      <div class="hero-card-accent c3"></div>
+      <div class="hero-card-tag">Academic Standing</div>
+      <div class="hero-card-title">🏆 Dean's List — 81% → 87%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="num">87%</div>
+        <div class="label">Sem 2 Grade</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">3+</div>
+        <div class="label">Live Projects</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">2x</div>
+        <div class="label">Dean's List</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Linux Server Admin</span>
+    <span class="marquee-item">Computer Networking</span>
+    <span class="marquee-item">Cloud Computing</span>
+    <span class="marquee-item">Python Automation</span>
+    <span class="marquee-item">Active Directory</span>
+    <span class="marquee-item">MySQL & SQL</span>
+    <span class="marquee-item">API Integration</span>
+    <span class="marquee-item">Raspberry Pi</span>
+    <span class="marquee-item">Backend JS</span>
+    <span class="marquee-item">Azure</span>
+    <span class="marquee-item">Linux Server Admin</span>
+    <span class="marquee-item">Computer Networking</span>
+    <span class="marquee-item">Cloud Computing</span>
+    <span class="marquee-item">Python Automation</span>
+    <span class="marquee-item">Active Directory</span>
+    <span class="marquee-item">MySQL & SQL</span>
+    <span class="marquee-item">API Integration</span>
+    <span class="marquee-item">Raspberry Pi</span>
+    <span class="marquee-item">Backend JS</span>
+    <span class="marquee-item">Azure</span>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section class="skills-section" id="skills">
+  <div class="section-header fade-in">
+    <span class="section-num">01.</span>
+    <h2 class="section-title">Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card fade-in">
+      <div class="skill-icon si-red">🛡</div>
+      <h3>Active Directory & Security</h3>
+      <p>Administered and secured Windows Active Directory and Domain Services. Designed and deployed LAMP Linux servers with a strong security focus.</p>
+      <div class="tags">
+        <span class="tag red">Active Directory</span>
+        <span class="tag red">Windows Server</span>
+        <span class="tag red">LAMP</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon si-blue">☁️</div>
+      <h3>Cloud & Collaboration</h3>
+      <p>Proficient in GitHub, Microsoft Excel, and Microsoft Azure basic cloud computing services. Comfortable navigating cloud platforms for real-world deployments.</p>
+      <div class="tags">
+        <span class="tag blue">Microsoft Azure</span>
+        <span class="tag blue">GitHub</span>
+        <span class="tag blue">Cloud Services</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon si-green">⚡</div>
+      <h3>Automation & Programming</h3>
+      <p>Virtualization for system performance. Python for automating SQL database tasks and network device discovery. Backend development with JavaScript.</p>
+      <div class="tags">
+        <span class="tag green">Python</span>
+        <span class="tag green">MySQL</span>
+        <span class="tag green">JavaScript</span>
+        <span class="tag green">Shell Scripting</span>
+      </div>
+    </div>
+    <div class="skill-card fade-in">
+      <div class="skill-icon si-yellow">🔌</div>
+      <h3>API Integration</h3>
+      <p>Experience working with Google APIs to enhance functionality in home network projects. Built cloud-connected Raspberry Pi projects using API-driven automation.</p>
+      <div class="tags">
+        <span class="tag">Google API</span>
+        <span class="tag">REST</span>
+        <span class="tag">Raspberry Pi</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header fade-in">
+    <span class="section-num">02.</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="exp-list">
+    <div class="exp-card fade-in">
+      <div class="exp-year">2023</div>
+      <div class="exp-content">
+        <h3>Technical Instructor — Python Programming</h3>
+        <p>Taught intermediate-level Python concepts, integrating MySQL with Python for database-driven applications. Delivered lessons on core programming, automation, and practical problem-solving.</p>
+        <p>Also provided instruction in Computer Networks, emphasizing network fundamentals, configuration, and real-world applications.</p>
+        <p>Developed a full <strong>Hospital Management System</strong> in Python with MySQL featuring modules for patient records, doctors, appointments, and billing — with CRUD operations and query optimization.</p>
+        <div class="tags">
+          <span class="tag blue">Python</span>
+          <span class="tag blue">MySQL</span>
+          <span class="tag blue">Networking</span>
+          <span class="tag blue">Teaching</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-card fade-in">
+      <div class="exp-year">Prior</div>
+      <div class="exp-content">
+        <h3>Journalist</h3>
+        <p>Covered political developments, public issues, and emerging stories with a focus on clear, factual, and engaging reporting. Researched complex topics, interviewed sources, and crafted well-structured articles.</p>
+        <p>Developed strong communication skills, fast information analysis, and the discipline to meet tight deadlines — sharpening storytelling and commitment to high-quality, neutral content.</p>
+        <div class="tags">
+          <span class="tag">Research</span>
+          <span class="tag">Communication</span>
+          <span class="tag">Writing</span>
+          <span class="tag">Reporting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects-section" id="projects">
+  <div class="section-header fade-in">
+    <span class="section-num" style="color:var(--yellow)">03.</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card fade-in">
+      <span class="proj-tag pt-wip">🔧 In Progress</span>
+      <h3>A+ Certification Prep</h3>
+      <p>Currently working towards CompTIA A+ certification — covering hardware, troubleshooting, OS fundamentals, and IT support methodologies to deepen hands-on technical knowledge.</p>
+      <div class="proj-footer">
+        <span class="proj-pill">CompTIA</span>
+        <span class="proj-pill">Hardware</span>
+        <span class="proj-pill">Troubleshooting</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="proj-tag pt-wip">⚙️ Building</span>
+      <h3>Backend JS — Twitter & YouTube Clones</h3>
+      <p>Building full backend clones of Twitter and YouTube using JavaScript. Covers REST APIs, authentication, database integration, and scalable server architecture patterns.</p>
+      <div class="proj-footer">
+        <span class="proj-pill">Node.js</span>
+        <span class="proj-pill">REST API</span>
+        <span class="proj-pill">Auth</span>
+        <span class="proj-pill">JavaScript</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="proj-tag pt-completed">✅ Completed</span>
+      <h3>LAMP Server Setup & Security Monitoring</h3>
+      <p>Developed and configured a secure LAMP server to host web projects using Linux, Apache, MySQL, and PHP. Implemented user management systems to facilitate web deployment.</p>
+      <div class="proj-footer">
+        <span class="proj-pill">Linux</span>
+        <span class="proj-pill">Apache</span>
+        <span class="proj-pill">MySQL</span>
+        <span class="proj-pill">PHP</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="proj-tag pt-completed">✅ Completed</span>
+      <h3>Ubuntu 20.04 Security Enhancement</h3>
+      <p>Implemented comprehensive security measures across SSH and VPN on Ubuntu — enforcing strong authentication, encryption, firewall rules, and intrusion detection. Established robust backup and disaster recovery procedures.</p>
+      <div class="proj-footer">
+        <span class="proj-pill">Ubuntu</span>
+        <span class="proj-pill">SSH</span>
+        <span class="proj-pill">VPN</span>
+        <span class="proj-pill">IDS</span>
+        <span class="proj-pill">Firewall</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="proj-tag pt-completed">✅ Completed</span>
+      <h3>Cloud Photo Frame — Raspberry Pi 5</h3>
+      <p>Built a fully cloud-integrated photo frame on a Raspberry Pi 5. Used Python and HTML for image rendering, Google Drive API for secure cloud photo retrieval, and a Python backend for dynamic slideshow generation.</p>
+      <div class="proj-footer">
+        <span class="proj-pill">Raspberry Pi</span>
+        <span class="proj-pill">Python</span>
+        <span class="proj-pill">Google Drive API</span>
+        <span class="proj-pill">Cloud</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="proj-tag pt-completed">✅ Completed</span>
+      <h3>Hospital Management System</h3>
+      <p>Python + MySQL system with modules for patient records, doctor management, appointments, and billing. Implemented CRUD operations, database integration, and query optimization for efficient healthcare workflows.</p>
+      <div class="proj-footer">
+        <span class="proj-pill">Python</span>
+        <span class="proj-pill">MySQL</span>
+        <span class="proj-pill">CRUD</span>
+        <span class="proj-pill">Healthcare</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header fade-in">
+    <span class="section-num">04.</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid">
+    <div class="edu-school fade-in">
+      <div class="school-name">Georgian College</div>
+      <div class="school-sub">Computer System Technicians — Networking Program<br>Barrie, Ontario</div>
+      <div class="school-badge">🏆 Dean's List — 2× Semesters</div>
+      <div class="tags" style="margin-top:1.5rem">
+        <span class="tag green">Networking</span>
+        <span class="tag green">Linux</span>
+        <span class="tag green">Cloud</span>
+        <span class="tag green">Python</span>
+      </div>
+    </div>
+    <div class="semester-list">
+      <div class="semester-card fade-in">
+        <div class="sem-header">
+          <div class="sem-title">Semester 1</div>
+          <div class="sem-grade">81% — Dean's List</div>
+        </div>
+        <div class="sem-courses">
+          <span class="course">Windows Server Administration</span>
+          <span class="course">Linux Server Administration</span>
+          <span class="course">Introduction to Networking</span>
+        </div>
+      </div>
+      <div class="semester-card fade-in">
+        <div class="sem-header">
+          <div class="sem-title">Semester 2</div>
+          <div class="sem-grade">87% — Dean's List</div>
+        </div>
+        <div class="sem-courses">
+          <span class="course">Network Admin (Linux & Windows)</span>
+          <span class="course">Computer Virtualization</span>
+          <span class="course">Python Programming</span>
+        </div>
+      </div>
+      <div class="semester-card fade-in">
+        <div class="sem-header">
+          <div class="sem-title">Semester 3</div>
+          <div class="sem-grade" style="background:#E2EAFF;color:#0047FF">Current</div>
+        </div>
+        <div class="sem-courses">
+          <span class="course">Relational Database Management (MySQL)</span>
+          <span class="course">Cloud Computing Services</span>
+          <span class="course">Shell Scripting & Linux Automation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="certs-section" id="certifications">
+  <div class="section-header fade-in">
+    <span class="section-num">05.</span>
+    <h2 class="section-title">Certifications</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="certs-row">
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🌐</div>
+      <div class="cert-body">
+        <div class="cert-name">CCNA — Introduction to Networking Essentials</div>
+        <div class="cert-org">Cisco Networking Academy</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🔀</div>
+      <div class="cert-body">
+        <div class="cert-name">CCNA — Routing & Switching</div>
+        <div class="cert-org">Cisco Networking Academy</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in" style="border-color: var(--accent); border-style: dashed;">
+      <div class="cert-icon" style="background: var(--accent);">🔧</div>
+      <div class="cert-body">
+        <div class="cert-name">CompTIA A+ — In Progress</div>
+        <div class="cert-org">CompTIA</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <p class="big-text fade-in">Let's <span>Connect</span></p>
+  <p class="sub fade-in">Open to internships, co-ops, and exciting tech conversations.</p>
+
+  <div class="socials fade-in">
+    <a href="https://linkedin.com/in/riken-patel007" class="social-btn linkedin" target="_blank">
+      <span class="social-icon">💼</span> LinkedIn
+    </a>
+    <a href="https://instagram.com/notriken" class="social-btn instagram" target="_blank">
+      <span class="social-icon">📸</span> @notriken
+    </a>
+    <a href="https://facebook.com/notriken" class="social-btn facebook" target="_blank">
+      <span class="social-icon">👤</span> notriken
+    </a>
+    <a href="mailto:rikenpatel2005@gmail.com" class="social-btn email" target="_blank">
+      <span class="social-icon">✉️</span> Email Me
+    </a>
+  </div>
+
+  <div class="contact-info fade-in">
+    <span>📍 Barrie, ON L4M 6R4</span>
+    <span>📞 (437)-448-7080</span>
+    <span>✉ rikenpatel2005@gmail.com</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Riken Patel — All rights reserved</span>
+  <span>Built with 🔥 | Barrie, Ontario</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+  });
+
+  function animateRing() {
+    rx += (mx - rx - 18) * 0.12;
+    ry += (my - ry - 18) * 0.12;
+    ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform += ' scale(1.5)';
+      ring.style.transform += ' scale(1.3)';
+    });
+    el.addEventListener('mouseleave', () => {});
+  });
+
+  // Progress bar
+  const bar = document.getElementById('progressBar');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = pct + '%';
+  });
+
+  // Fade-in on scroll
+  const faders = document.querySelectorAll('.fade-in');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  faders.forEach(f => obs.observe(f));
+</script>
+</body>
+</html>
