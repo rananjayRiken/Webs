@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOID RUNNER</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #04050f;
+    --cyan: #00f5ff;
+    --magenta: #ff00aa;
+    --yellow: #ffe600;
+    --dim: #0a0d1f;
+    --grid: rgba(0,245,255,0.04);
+  }
+
+  body {
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Share Tech Mono', monospace;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* Scrolling grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: -100px;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: gridScroll 8s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes gridScroll {
+    from { transform: translateY(0); }
+    to   { transform: translateY(40px); }
+  }
+
+  #shell {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #title-bar {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 2rem;
+    color: var(--cyan);
+    text-shadow: 0 0 12px var(--cyan), 0 0 40px rgba(0,245,255,0.4);
+    letter-spacing: 0.15em;
+  }
+
+  #score-box {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    color: var(--yellow);
+    text-shadow: 0 0 8px var(--yellow);
+    letter-spacing: 0.1em;
+  }
+
+  /* Canvas wrapper with neon border */
+  #canvas-wrap {
+    position: relative;
+    border: 1px solid rgba(0,245,255,0.3);
+    box-shadow:
+      0 0 0 1px rgba(0,245,255,0.08),
+      0 0 20px rgba(0,245,255,0.15),
+      0 0 60px rgba(0,245,255,0.05),
+      inset 0 0 40px rgba(0,0,0,0.8);
+  }
+
+  canvas {
+    display: block;
+    background: transparent;
+  }
+
+  #hud {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: rgba(0,245,255,0.5);
+    letter-spacing: 0.08em;
+    padding: 0 2px;
+  }
+
+  /* Overlay (start / game over) */
+  #overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(4,5,15,0.82);
+    gap: 18px;
+    transition: opacity 0.3s;
+  }
+
+  #overlay.hidden { opacity: 0; pointer-events: none; }
+
+  #overlay-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 2.4rem;
+    color: var(--magenta);
+    text-shadow: 0 0 14px var(--magenta), 0 0 50px rgba(255,0,170,0.5);
+    letter-spacing: 0.12em;
+  }
+
+  #overlay-sub {
+    font-size: 0.8rem;
+    color: rgba(0,245,255,0.6);
+    letter-spacing: 0.12em;
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  #overlay-score {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    color: var(--yellow);
+    text-shadow: 0 0 10px var(--yellow);
+    letter-spacing: 0.1em;
+  }
+
+  #btn {
+    margin-top: 6px;
+    padding: 10px 32px;
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    text-shadow: 0 0 8px var(--cyan);
+    box-shadow: 0 0 12px rgba(0,245,255,0.2), inset 0 0 12px rgba(0,245,255,0.05);
+    transition: all 0.18s;
+  }
+
+  #btn:hover {
+    background: rgba(0,245,255,0.08);
+    box-shadow: 0 0 24px rgba(0,245,255,0.4), inset 0 0 20px rgba(0,245,255,0.1);
+  }
+
+  #lives-display {
+    font-size: 0.8rem;
+    color: var(--magenta);
+    text-shadow: 0 0 8px var(--magenta);
+    letter-spacing: 0.12em;
+  }
+</style>
+</head>
+<body>
+
+<div id="shell">
+  <div id="title-bar">
+    <h1>VOID RUNNER</h1>
+    <div id="score-box">SCORE: <span id="score-val">0</span></div>
+  </div>
+
+  <div id="canvas-wrap">
+    <canvas id="c" width="480" height="540"></canvas>
+
+    <div id="overlay">
+      <div id="overlay-title" id="ot">VOID RUNNER</div>
+      <div id="overlay-sub">
+        DODGE THE ASTEROIDS<br>
+        ← → ARROW KEYS &nbsp;|&nbsp; A D KEYS<br>
+        COLLECT <span style="color:var(--yellow)">◆ CRYSTALS</span> FOR POINTS
+      </div>
+      <div id="overlay-score" style="display:none"></div>
+      <button id="btn">LAUNCH</button>
+    </div>
+  </div>
+
+  <div id="hud">
+    <span>LIVES: <span id="lives-display">♥ ♥ ♥</span></span>
+    <span>BEST: <span id="best-val">0</span></span>
+    <span>WAVE: <span id="wave-val">1</span></span>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+
+const $score  = document.getElementById('score-val');
+const $best   = document.getElementById('best-val');
+const $wave   = document.getElementById('wave-val');
+const $lives  = document.getElementById('lives-display');
+const overlay = document.getElementById('overlay');
+const overlayTitle = document.getElementById('overlay-title');
+const overlaySub   = document.getElementById('overlay-sub');
+const overlayScore = document.getElementById('overlay-score');
+const btn     = document.getElementById('btn');
+
+// ── State ────────────────────────────────────────────────
+let score = 0, best = 0, lives = 3, wave = 1;
+let running = false, gameOver = false;
+let frameId;
+
+// Player
+const player = { x: W/2, y: H - 60, w: 32, h: 24, speed: 0, maxSpeed: 5.5, acc: 0.45, fric: 0.88, trail: [] };
+
+// Particles, asteroids, crystals, stars
+let particles = [], asteroids = [], crystals = [], stars = [], explosionFlash = 0;
+
+// Input
+const keys = {};
+document.addEventListener('keydown', e => { keys[e.key] = true; });
+document.addEventListener('keyup',   e => { keys[e.key] = false; });
+
+// ── Helpers ──────────────────────────────────────────────
+function rand(a, b) { return Math.random() * (b - a) + a; }
+function randInt(a, b) { return Math.floor(rand(a, b+1)); }
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function hex(col, a = 1) {
+  // col is css var value or hex
+  return col;
+}
+
+// ── Stars ────────────────────────────────────────────────
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 120; i++) {
+    stars.push({ x: rand(0, W), y: rand(0, H), r: rand(0.3, 1.4), spd: rand(0.3, 1.2), bright: rand(0.2, 0.9) });
+  }
+}
+
+// ── Spawn ─────────────────────────────────────────────────
+function spawnAsteroid() {
+  const r = rand(14, 26 + wave * 2);
+  const speed = rand(1.2, 2.2 + wave * 0.35);
+  const x = rand(r, W - r);
+  const sides = randInt(5, 9);
+  const color = Math.random() < 0.5 ? '#ff4466' : '#aa44ff';
+  asteroids.push({ x, y: -r, r, speed, sides, color, angle: rand(0, Math.PI*2), spin: rand(-0.03, 0.03), wobble: [] });
+  // pre-compute polygon points offset from center
+  const pts = [];
+  for (let i = 0; i < sides; i++) {
+    const a = (i / sides) * Math.PI * 2;
+    const rr = r * rand(0.7, 1.15);
+    pts.push({ a, rr });
+  }
+  asteroids[asteroids.length-1].pts = pts;
+}
+
+function spawnCrystal() {
+  crystals.push({ x: rand(16, W - 16), y: -14, speed: rand(1.0, 1.8), angle: 0, pulse: rand(0, Math.PI*2) });
+}
+
+// ── Particles ─────────────────────────────────────────────
+function explode(x, y, col, count = 18) {
+  for (let i = 0; i < count; i++) {
+    const angle = rand(0, Math.PI * 2);
+    const spd   = rand(1, 5);
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * spd,
+      vy: Math.sin(angle) * spd,
+      life: 1, decay: rand(0.02, 0.05),
+      r: rand(1.5, 4), col
+    });
+  }
+}
+
+function collectBurst(x, y) {
+  for (let i = 0; i < 12; i++) {
+    const angle = rand(0, Math.PI * 2);
+    const spd   = rand(0.5, 3);
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * spd,
+      vy: Math.sin(angle) * spd,
+      life: 1, decay: rand(0.03, 0.07),
+      r: rand(1, 3), col: '#ffe600'
+    });
+  }
+}
+
+// ── Player trail ─────────────────────────────────────────
+function updateTrail() {
+  player.trail.unshift({ x: player.x, y: player.y + player.h/2 });
+  if (player.trail.length > 12) player.trail.pop();
+}
+
+// ── Draw helpers ──────────────────────────────────────────
+function drawShip(x, y) {
+  ctx.save();
+  ctx.translate(x, y);
+
+  // Engine glow
+  const eg = ctx.createRadialGradient(0, 14, 0, 0, 14, 18);
+  eg.addColorStop(0, 'rgba(0,245,255,0.7)');
+  eg.addColorStop(1, 'rgba(0,245,255,0)');
+  ctx.fillStyle = eg;
+  ctx.beginPath(); ctx.arc(0, 14, 18, 0, Math.PI*2); ctx.fill();
+
+  // Thruster flame
+  ctx.fillStyle = '#00f5ff';
+  ctx.shadowBlur = 10; ctx.shadowColor = '#00f5ff';
+  ctx.beginPath();
+  ctx.moveTo(-6, 12); ctx.lineTo(6, 12); ctx.lineTo(0, 12 + rand(8, 18)); ctx.closePath();
+  ctx.fill();
+  ctx.shadowBlur = 0;
+
+  // Hull
+  ctx.fillStyle = '#e0f8ff';
+  ctx.shadowBlur = 8; ctx.shadowColor = '#00f5ff';
+  ctx.beginPath();
+  ctx.moveTo(0, -12); ctx.lineTo(13, 10); ctx.lineTo(6, 7); ctx.lineTo(-6, 7); ctx.lineTo(-13, 10);
+  ctx.closePath(); ctx.fill();
+
+  // Cockpit
+  ctx.fillStyle = '#00f5ff';
+  ctx.beginPath(); ctx.ellipse(0, -2, 4, 6, 0, 0, Math.PI*2); ctx.fill();
+  ctx.shadowBlur = 0;
+
+  ctx.restore();
+}
+
+function drawAsteroid(a) {
+  ctx.save();
+  ctx.translate(a.x, a.y);
+  ctx.rotate(a.angle);
+  ctx.shadowBlur = 12; ctx.shadowColor = a.color;
+  ctx.strokeStyle = a.color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  a.pts.forEach((p, i) => {
+    const px = Math.cos(p.a) * p.rr;
+    const py = Math.sin(p.a) * p.rr;
+    i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+  });
+  ctx.closePath();
+  ctx.stroke();
+  // Dim fill
+  ctx.fillStyle = a.color.replace(')', ', 0.1)').replace('rgb', 'rgba');
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.restore();
+}
+
+function drawCrystal(c) {
+  const pulse = (Math.sin(c.pulse) + 1) / 2;
+  const glow = 8 + pulse * 8;
+  ctx.save();
+  ctx.translate(c.x, c.y);
+  ctx.rotate(c.angle);
+  ctx.shadowBlur = glow; ctx.shadowColor = '#ffe600';
+  ctx.strokeStyle = '#ffe600';
+  ctx.lineWidth = 1.5;
+  ctx.fillStyle = `rgba(255,230,0,${0.15 + pulse * 0.2})`;
+  ctx.beginPath();
+  ctx.moveTo(0, -10); ctx.lineTo(6, 0); ctx.lineTo(0, 10); ctx.lineTo(-6, 0);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.shadowBlur = 0;
+  ctx.restore();
+}
+
+// ── HUD update ────────────────────────────────────────────
+function updateHUD() {
+  $score.textContent = score;
+  $best.textContent  = best;
+  $wave.textContent  = wave;
+  $lives.textContent = '♥ '.repeat(lives).trim();
+}
+
+// ── Collision ─────────────────────────────────────────────
+function circleRect(cx, cy, cr, rx, ry, rw, rh) {
+  const nearX = Math.max(rx, Math.min(cx, rx + rw));
+  const nearY = Math.max(ry, Math.min(cy, ry + rh));
+  const dx = cx - nearX, dy = cy - nearY;
+  return dx*dx + dy*dy < cr*cr;
+}
+
+// ── Game loop ─────────────────────────────────────────────
+let tick = 0, asteroidTimer = 0, crystalTimer = 0;
+
+function gameLoop() {
+  frameId = requestAnimationFrame(gameLoop);
+  tick++;
+
+  // ── Update ──
+  if (running && !gameOver) {
+
+    // Player movement
+    if (keys['ArrowLeft'] || keys['a'] || keys['A']) player.speed -= player.acc;
+    if (keys['ArrowRight'] || keys['d'] || keys['D']) player.speed += player.acc;
+    player.speed *= player.fric;
+    player.speed = Math.max(-player.maxSpeed, Math.min(player.maxSpeed, player.speed));
+    player.x += player.speed;
+    player.x = Math.max(player.w/2, Math.min(W - player.w/2, player.x));
+
+    updateTrail();
+
+    // Spawn
+    const spawnRate = Math.max(30, 70 - wave * 5);
+    asteroidTimer++;
+    if (asteroidTimer >= spawnRate) { spawnAsteroid(); asteroidTimer = 0; }
+
+    crystalTimer++;
+    if (crystalTimer >= 180) { spawnCrystal(); crystalTimer = 0; }
+
+    // Stars
+    stars.forEach(s => { s.y += s.spd; if (s.y > H) s.y = 0; });
+
+    // Asteroids
+    const py = player.y, px = player.x, pw = player.w, ph = player.h;
+    asteroids.forEach((a, i) => {
+      a.y += a.speed;
+      a.angle += a.spin;
+      if (a.y > H + a.r) { asteroids.splice(i, 1); score += 1; wave = Math.floor(score / 50) + 1; return; }
+
+      if (circleRect(a.x, a.y, a.r * 0.72, px - pw/2, py - ph/2, pw, ph)) {
+        explode(a.x, a.y, a.color, 22);
+        explode(px, py, '#00f5ff', 14);
+        explosionFlash = 10;
+        asteroids.splice(i, 1);
+        lives--;
+        if (lives <= 0) endGame();
+      }
+    });
+
+    // Crystals
+    crystals.forEach((c, i) => {
+      c.y += c.speed;
+      c.angle += 0.04;
+      c.pulse += 0.07;
+      if (c.y > H + 20) { crystals.splice(i, 1); return; }
+      if (circleRect(c.x, c.y, 12, px - pw/2, py - ph/2, pw, ph)) {
+        collectBurst(c.x, c.y);
+        score += 10;
+        crystals.splice(i, 1);
+      }
+    });
+
+    // Particles
+    particles.forEach((p, i) => {
+      p.x += p.vx; p.y += p.vy;
+      p.vx *= 0.92; p.vy *= 0.92;
+      p.life -= p.decay;
+      if (p.life <= 0) particles.splice(i, 1);
+    });
+
+    score += 0.05;
+    if (score > best) best = Math.floor(score);
+    wave = Math.floor(score / 50) + 1;
+    updateHUD();
+  }
+
+  // ── Draw ──
+  ctx.clearRect(0, 0, W, H);
+
+  // Flash on hit
+  if (explosionFlash > 0) {
+    ctx.fillStyle = `rgba(255,50,80,${explosionFlash / 10 * 0.25})`;
+    ctx.fillRect(0, 0, W, H);
+    explosionFlash--;
+  }
+
+  // Stars
+  stars.forEach(s => {
+    ctx.fillStyle = `rgba(200,230,255,${s.bright})`;
+    ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+  });
+
+  // Player trail
+  player.trail.forEach((t, i) => {
+    const a = (1 - i / player.trail.length) * 0.35;
+    ctx.strokeStyle = `rgba(0,245,255,${a})`;
+    ctx.lineWidth = (1 - i / player.trail.length) * 3;
+    if (i === 0) { ctx.beginPath(); ctx.moveTo(t.x, t.y); }
+    else { ctx.lineTo(t.x, t.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(t.x, t.y); }
+  });
+
+  // Crystals
+  crystals.forEach(drawCrystal);
+
+  // Asteroids
+  asteroids.forEach(drawAsteroid);
+
+  // Particles
+  particles.forEach(p => {
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.col;
+    ctx.shadowBlur = 6; ctx.shadowColor = p.col;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+    ctx.shadowBlur = 0;
+  });
+  ctx.globalAlpha = 1;
+
+  // Ship
+  if (running) drawShip(player.x, player.y);
+
+  // Score while playing
+  if (running && !gameOver) {
+    ctx.fillStyle = 'rgba(0,245,255,0.12)';
+    ctx.font = '600 11px Share Tech Mono';
+    ctx.textAlign = 'left';
+    ctx.fillText(`SCORE  ${Math.floor(score)}`, 12, 20);
+  }
+}
+
+// ── Start / End ───────────────────────────────────────────
+function startGame() {
+  score = 0; lives = 3; wave = 1; tick = 0;
+  asteroidTimer = 0; crystalTimer = 0;
+  asteroids = []; crystals = []; particles = [];
+  player.x = W/2; player.speed = 0; player.trail = [];
+  gameOver = false; running = true;
+  overlay.classList.add('hidden');
+  updateHUD();
+}
+
+function endGame() {
+  gameOver = true; running = false;
+  if (Math.floor(score) > best) best = Math.floor(score);
+  overlayTitle.textContent = 'DESTROYED';
+  overlayTitle.style.color = '#ff00aa';
+  overlaySub.innerHTML = `WAVE REACHED &nbsp;|&nbsp; KEEP DODGING`;
+  overlayScore.style.display = 'block';
+  overlayScore.textContent = `FINAL SCORE: ${Math.floor(score)}  ·  BEST: ${best}`;
+  btn.textContent = 'RETRY';
+  overlay.classList.remove('hidden');
+  updateHUD();
+}
+
+btn.addEventListener('click', startGame);
+document.addEventListener('keydown', e => {
+  if ((e.key === ' ' || e.key === 'Enter') && !running) startGame();
+});
+
+initStars();
+gameLoop();
+</script>
+</body>
+</html>
