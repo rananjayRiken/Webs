@@ -421,44 +421,46 @@
   .tag.blue { background: #E2EAFF; border-color: #0047FF; color: #0047FF; }
   .tag.green { background: #DFFAF0; border-color: #00C37D; color: #00C37D; }
 
-  /* Experience */
-  .exp-list { display: flex; flex-direction: column; gap: 2rem; }
+  .exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  padding-left: 2.5rem;
+}
 
-  .exp-card {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 2rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .exp-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--accent); }
+.exp-list::before {
+  content: '';
+  position: absolute;
+  left: 0.4rem;
+  top: 1rem;
+  bottom: 1rem;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--border));
+}
 
-  .exp-year {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    writing-mode: vertical-rl;
-    letter-spacing: 0.1em;
-    opacity: 0.6;
-    align-self: center;
-  }
+.exp-card {
+  position: relative;
+}
 
-  .exp-content h3 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-  }
-  .exp-content p {
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 0.75rem;
-  }
+.exp-card::before {
+  content: '';
+  position: absolute;
+  left: -2.15rem;
+  top: 2.5rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--accent);
+  z-index: 1;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.exp-card:hover::before {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
 
   /* Projects */
   .projects-section { background: var(--ink); color: white; }
@@ -1095,21 +1097,6 @@
   </div>
   <div class="exp-list">
   <div class="exp-card fade-in">
-    <div class="exp-year">2024</div>
-    <div class="exp-content">
-      <h3>Help Desk Technician</h3>
-      <p><em>Akshar Accounting and Investments — Share Brokers | Mutual Fund Agents, Borsad, India | 6 Months</em></p>
-      <p>Provided first-line technical support for staff, resolving hardware, software, and connectivity issues, while maintaining workstations, printers, and peripherals in a financial services environment.</p>
-      <p>Assisted with account and user management tasks including password resets and access provisioning, supporting day-to-day IT operations for broking and mutual fund transaction systems.</p>
-      <div class="tags">
-        <span class="tag blue">IT Support</span>
-        <span class="tag blue">Hardware</span>
-        <span class="tag blue">User Management</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="exp-card fade-in">
     <div class="exp-year">2025</div>
     <div class="exp-content">
       <h3>Sales Associate — Food and Consumables Department</h3>
@@ -1153,6 +1140,21 @@
         <span class="tag blue">IT Support</span>
         <span class="tag blue">Troubleshooting</span>
         <span class="tag blue">SLA Management</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exp-card fade-in">
+    <div class="exp-year">2024</div>
+    <div class="exp-content">
+      <h3>Help Desk Technician</h3>
+      <p><em>Akshar Accounting and Investments — Share Brokers | Mutual Fund Agents, Borsad, India | 6 Months</em></p>
+      <p>Provided first-line technical support for staff, resolving hardware, software, and connectivity issues, while maintaining workstations, printers, and peripherals in a financial services environment.</p>
+      <p>Assisted with account and user management tasks including password resets and access provisioning, supporting day-to-day IT operations for broking and mutual fund transaction systems.</p>
+      <div class="tags">
+        <span class="tag blue">IT Support</span>
+        <span class="tag blue">Hardware</span>
+        <span class="tag blue">User Management</span>
       </div>
     </div>
   </div>
