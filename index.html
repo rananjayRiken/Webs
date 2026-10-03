@@ -2,1488 +2,221 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Riken Patel's Tech Portfolio</title>
-<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Riken Patel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #F5F0E8;
-    --bg2: #EDE7D9;
-    --ink: #1A1510;
-    --accent: #FF4D1C;
-    --accent2: #0047FF;
-    --accent3: #00C37D;
-    --yellow: #FFD93D;
-    --card: #FFFFFF;
-    --border: #D4CCBC;
-    --muted: #7A7060;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    width: 12px; height: 12px;
-    background: var(--accent);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s ease;
-    mix-blend-mode: difference;
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 2px solid var(--accent2);
-    border-radius: 50%;
-    position: fixed;
-    top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transition: all 0.15s ease;
-    mix-blend-mode: difference;
-  }
-  /* Lower Refresh Rate options */
-  .cursor, .cursor-ring {
-  transition: transform 0.05s linear; /* Lower values prevent laggy feeling */
-  will-change: transform; /* Tells the browser to optimize this element */
-}
-
-  /* Nav */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.2rem 3rem;
-    background: var(--bg);
-    border-bottom: 2px solid var(--ink);
-    backdrop-filter: blur(8px);
-  }
-
-  .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.3rem;
-    letter-spacing: -0.02em;
-  }
-  .nav-logo span { color: var(--accent); }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-  .nav-links a {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.78rem;
-    text-decoration: none;
-    color: var(--ink);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    position: relative;
-    padding-bottom: 2px;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 0; height: 2px;
-    background: var(--accent);
-    transition: width 0.25s ease;
-  }
-  .nav-links a:hover::after { width: 100%; }
-  #gitIcon {
-    display: inline-block; /* Required for transform to work on <i> */
-    transform: scale(1.5);
-}
-
-  /* Hero */
-  .hero {
-    min-height: 100vh;
-    padding: 9rem 3rem 4rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg-shape {
-    position: absolute;
-    top: -100px; right: -100px;
-    width: 600px; height: 600px;
-    background: var(--yellow);
-    border-radius: 50%;
-    opacity: 0.3;
-    filter: blur(80px);
-    animation: pulse 6s ease-in-out infinite;
-  }
-  .hero-bg-shape2 {
-    position: absolute;
-    bottom: -80px; left: 20%;
-    width: 400px; height: 400px;
-    background: var(--accent);
-    border-radius: 50%;
-    opacity: 0.12;
-    filter: blur(60px);
-    animation: pulse 8s ease-in-out infinite reverse;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-
-  .hero-left { position: relative; z-index: 2; }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--accent);
-    color: white;
-    padding: 0.35rem 1rem;
-    border-radius: 100px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    animation: slideDown 0.6s ease both;
-  }
-  .hero-badge::before {
-    content: '●';
-    font-size: 0.5rem;
-    animation: blink 1.5s ease-in-out infinite;
-  }
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-  .hero h1 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(3.5rem, 7vw, 6rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-    margin-bottom: 1.5rem;
-    animation: slideUp 0.7s ease 0.1s both;
-  }
-
-  .hero h1 .name-accent { color: var(--accent); }
-  .hero h1 .name-line2 {
-    display: block;
-    color: var(--accent2);
-    -webkit-text-stroke: 2px var(--accent2);
-    color: transparent;
-  }
-
-  .hero-desc {
-    font-size: 1.1rem;
-    color: var(--muted);
-    max-width: 480px;
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-    animation: slideUp 0.7s ease 0.2s both;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    animation: slideUp 0.7s ease 0.3s both;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--ink);
-    color: white;
-    padding: 0.85rem 2rem;
-    border-radius: 100px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
-    transition: transform 0.2s ease, background 0.2s ease;
-    border: 2px solid var(--ink);
-  }
-  .btn-primary:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: transparent;
-    color: var(--ink);
-    padding: 0.85rem 2rem;
-    border-radius: 100px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
-    border: 2px solid var(--ink);
-    transition: transform 0.2s ease, background 0.2s ease;
-  }
-  .btn-secondary:hover { background: var(--bg2); transform: translateY(-2px); }
-
-  .hero-right {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    animation: slideUp 0.7s ease 0.4s both;
-  }
-
-  .hero-card {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 20px;
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .hero-card:hover { transform: translateY(-4px) rotate(-1deg); box-shadow: 6px 6px 0 var(--ink); }
-
-  .hero-card-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.4rem;
-  }
-
-  .hero-card-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-  }
-
-  .hero-card-accent {
-    position: absolute;
-    top: 0; right: 0;
-    width: 80px; height: 80px;
-    border-radius: 0 20px 0 80px;
-  }
-  .c1 { background: var(--yellow); }
-  .c2 { background: var(--accent); opacity: 0.2; }
-  .c3 { background: var(--accent2); opacity: 0.15; }
-
-  .stat-row {
-    display: flex;
-    gap: 1rem;
-  }
-  .stat-box {
-    flex: 1;
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 16px;
-    padding: 1.2rem;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .stat-box:hover { transform: translateY(-4px); box-shadow: 4px 4px 0 var(--accent); }
-  .stat-box .num {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 2rem;
-    color: var(--accent);
-  }
-  .stat-box .label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-
-  /* Section layout */
-  section {
-    padding: 6rem 3rem;
-    position: relative;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    margin-bottom: 3.5rem;
-  }
-
-  .section-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2rem, 4vw, 3rem);
-    letter-spacing: -0.03em;
-    line-height: 1;
-  }
-
-  .section-line {
-    flex: 1;
-    height: 2px;
-    background: var(--border);
-    margin-left: 1rem;
-  }
-
-  /* Skills section */
-  .skills-section { background: var(--bg2); border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .skill-card {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 20px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .skill-card:hover { transform: translateY(-6px) rotate(0.5deg); box-shadow: 8px 8px 0 var(--ink); }
-
-  .skill-icon {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  .si-red { background: #FFE8E2; }
-  .si-blue { background: #E2EAFF; }
-  .si-green { background: #DFFAF0; }
-  .si-yellow { background: #FFF8D6; }
-
-  .skill-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 0.6rem;
-  }
-  .skill-card p {
-    font-size: 0.875rem;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  /* Pill tags */
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
-  }
-  .tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    padding: 0.3rem 0.75rem;
-    border-radius: 100px;
-    border: 1.5px solid var(--border);
-    background: var(--bg);
-    letter-spacing: 0.04em;
-    color: var(--ink);
-  }
-  .tag.red { background: #FFE8E2; border-color: #FF4D1C; color: #FF4D1C; }
-  .tag.blue { background: #E2EAFF; border-color: #0047FF; color: #0047FF; }
-  .tag.green { background: #DFFAF0; border-color: #00C37D; color: #00C37D; }
-
-  /* Experience */
-  .exp-list { display: flex; flex-direction: column; gap: 2rem; }
-
-  .exp-card {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 2rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .exp-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--accent); }
-
-  .exp-year {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    writing-mode: vertical-rl;
-    letter-spacing: 0.1em;
-    opacity: 0.6;
-    align-self: center;
-  }
-
-  .exp-content h3 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-  }
-  .exp-content p {
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 0.75rem;
-  }
-
-  /* Projects */
-  .projects-section { background: var(--ink); color: white; }
-  .projects-section .section-title { color: white; }
-  .projects-section .section-num { color: var(--yellow); }
-  .projects-section .section-line { background: rgba(255,255,255,0.15); }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .project-card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 20px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, background 0.3s ease;
-  }
-  .project-card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.09); }
-
-  .project-card .proj-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-    display: inline-block;
-    padding: 0.25rem 0.8rem;
-    border-radius: 100px;
-  }
-  .pt-active { background: var(--yellow); color: var(--ink); }
-  .pt-completed { background: var(--accent3); color: white; }
-  .pt-wip { background: var(--accent); color: white; }
-
-  .project-card h3 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.15rem;
-    margin-bottom: 0.75rem;
-    color: white;
-  }
-  .project-card p {
-    font-size: 0.875rem;
-    color: rgba(255,255,255,0.55);
-    line-height: 1.65;
-  }
-
-  .proj-footer {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .proj-pill {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    padding: 0.25rem 0.7rem;
-    border-radius: 100px;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: rgba(255,255,255,0.6);
-    letter-spacing: 0.04em;
-  }
-
-  /* Education */
-  .edu-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 4rem;
-    align-items: start;
-  }
-
-  .edu-school {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 20px;
-    padding: 2rem;
-    position: sticky;
-    top: 100px;
-  }
-  .edu-school .school-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
-  }
-  .edu-school .school-sub {
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-  .edu-school .school-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: var(--yellow);
-    color: var(--ink);
-    padding: 0.4rem 1rem;
-    border-radius: 100px;
-    font-weight: 700;
-    font-size: 0.8rem;
-    margin-top: 1rem;
-  }
-
-  .semester-list { display: flex; flex-direction: column; gap: 1.5rem; }
-
-  .semester-card {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 20px;
-    padding: 2rem;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .semester-card:hover { transform: translateX(8px); box-shadow: -8px 0 0 var(--accent); }
-
-  .semester-card .sem-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  .semester-card .sem-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-  }
-  .semester-card .sem-grade {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--accent3);
-    background: #DFFAF0;
-    padding: 0.2rem 0.75rem;
-    border-radius: 100px;
-  }
-
-  .sem-courses { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .course {
-    font-size: 0.82rem;
-    padding: 0.35rem 0.9rem;
-    border-radius: 100px;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    color: var(--ink);
-  }
-
-  /* Certs */
-  .certs-section { background: var(--bg2); border-top: 2px solid var(--border); }
-
-  .certs-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .cert-card {
-    background: var(--card);
-    border: 2px solid var(--border);
-    border-radius: 20px;
-    padding: 1.5rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    flex: 1;
-    min-width: 260px;
-  }
-  .cert-card:hover { transform: translateY(-4px) rotate(-0.5deg); box-shadow: 6px 6px 0 var(--accent2); }
-
-  .cert-icon {
-    width: 48px; height: 48px;
-    background: var(--accent2);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.4rem;
-    flex-shrink: 0;
-  }
-  .cert-body .cert-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-  }
-  .cert-body .cert-org {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-top: 0.2rem;
-  }
-
-  /* Social / Contact */
-  .contact-section {
-    background: var(--bg);
-    border-top: 2px solid var(--border);
-    text-align: center;
-    padding: 6rem 3rem;
-  }
-
-  .contact-section .big-text {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    letter-spacing: -0.04em;
-    margin-bottom: 1rem;
-    line-height: 1;
-  }
-  .contact-section .big-text span { color: var(--accent); }
-
-  .contact-section .sub {
-    color: var(--muted);
-    font-size: 1.05rem;
-    margin-bottom: 3rem;
-  }
-
-  .socials {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 3rem;
-  }
-
-  .social-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.85rem 1.75rem;
-    border-radius: 100px;
-    border: 2px solid var(--border);
-    background: var(--card);
-    text-decoration: none;
-    color: var(--ink);
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  }
-  .social-btn:hover { transform: translateY(-3px); }
-  .social-btn.linkedin { border-color: #0A66C2; }
-  .social-btn.linkedin:hover { background: #0A66C2; color: white; box-shadow: 4px 4px 0 #083D74; }
-  .social-btn.instagram { border-color: #E1306C; }
-  .social-btn.instagram:hover { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
-  .social-btn.facebook { border-color: #1877F2; }
-  .social-btn.facebook:hover { background: #1877F2; color: white; box-shadow: 4px 4px 0 #0c50a7; }
-  .social-btn.email { border-color: var(--accent); }
-  .social-btn.email:hover { background: var(--accent); color: white; box-shadow: 4px 4px 0 #b5320d; }
-
-  .social-icon { font-size: 1.2rem; }
-
-  .contact-info {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--muted);
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-
-  /* Footer */
-  footer {
-    border-top: 2px solid var(--border);
-    padding: 1.5rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-  }
-
-  /* Scroll indicator */
-  .progress-bar {
-    position: fixed;
-    top: 0; left: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    z-index: 200;
-    transition: width 0.1s ease;
-  }
-
-  /* Marquee */
-  .marquee-wrap {
-    background: var(--accent);
-    color: white;
-    overflow: hidden;
-    padding: 0.75rem 0;
-    border-top: 2px solid var(--ink);
-    border-bottom: 2px solid var(--ink);
-  }
-  .marquee-track {
-    display: flex;
-    gap: 3rem;
-    animation: marquee 18s linear infinite;
-    white-space: nowrap;
-    width: max-content;
-  }
-  .marquee-item {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .marquee-item::before { content: '★'; font-size: 0.6rem; }
-
-  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-  /* ── Responsive ── */
-
-  /* Wide tablet: 769px – 900px */
-  @media (max-width: 900px) {
-    body { cursor: auto; }
-    .cursor, .cursor-ring { display: none; }
-
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.2rem; }
-    .nav-links a { font-size: 0.72rem; }
-
-    .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; gap: 2rem; }
-    .hero-right { display: none; }
-    .hero h1 { font-size: clamp(3rem, 8vw, 5rem); }
-
-    section { padding: 4rem 2rem; }
-
-    .skills-grid { grid-template-columns: repeat(2, 1fr); }
-    .projects-grid { grid-template-columns: repeat(2, 1fr); }
-
-    .exp-card { grid-template-columns: 1fr; gap: 0.75rem; }
-    .exp-year { writing-mode: horizontal-tb; font-size: 0.7rem; }
-
-    .edu-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .edu-school { position: relative; top: 0; }
-
-    .certs-row { flex-direction: column; }
-
-    .contact-section { padding: 4rem 2rem; }
-
-    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
-  }
-
-  /* Tablet: 481px – 768px */
-  @media (max-width: 768px) {
-    nav { padding: 0.9rem 1.25rem; }
-    .nav-links { gap: 0.9rem; }
-    .nav-links a { font-size: 0.68rem; letter-spacing: 0.05em; }
-
-    .hero { padding: 6.5rem 1.5rem 2.5rem; }
-    .hero h1 { font-size: clamp(2.8rem, 9vw, 4.2rem); }
-    .hero-desc { font-size: 1rem; }
-    .hero-cta { gap: 0.75rem; }
-    .btn-primary, .btn-secondary { padding: 0.75rem 1.5rem; font-size: 0.88rem; }
-
-    section { padding: 3.5rem 1.5rem; }
-
-    .section-title { font-size: clamp(1.8rem, 5vw, 2.5rem); }
-
-    .skills-grid { grid-template-columns: 1fr; gap: 1rem; }
-    .projects-grid { grid-template-columns: 1fr; gap: 1rem; }
-
-    .stat-row { gap: 0.75rem; }
-    .stat-box .num { font-size: 1.6rem; }
-
-    .exp-card { padding: 1.5rem; }
-
-    .semester-card .sem-header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
-
-    .contact-section { padding: 3.5rem 1.5rem; }
-    .contact-section .sub { font-size: 0.95rem; margin-bottom: 2rem; }
-    .socials { gap: 0.75rem; }
-    .social-btn { padding: 0.75rem 1.25rem; font-size: 0.85rem; }
-
-    .contact-info { flex-direction: column; gap: 0.5rem; font-size: 0.78rem; }
-  }
-
-  /* Phone: ≤ 480px */
-  @media (max-width: 480px) {
-    /* Nav — hamburger-less compact row */
-    nav {
-      padding: 0.85rem 1rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .nav-logo { font-size: 1.1rem; }
-    .nav-links {
-      width: 100%;
-      justify-content: space-between;
-      gap: 0;
-      overflow-x: auto;
-      padding-bottom: 2px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .nav-links::-webkit-scrollbar { display: none; }
-    .nav-links a { font-size: 0.62rem; white-space: nowrap; }
-
-    .hero { padding: 7.5rem 1rem 2rem; }
-    .hero h1 { font-size: clamp(2.4rem, 11vw, 3.5rem); letter-spacing: -0.03em; }
-    .hero-desc { font-size: 0.92rem; margin-bottom: 2rem; }
-    .hero-cta { flex-direction: column; }
-    .btn-primary, .btn-secondary { width: 100%; justify-content: center; padding: 0.85rem 1rem; }
-
-    .hero-badge { font-size: 0.65rem; padding: 0.3rem 0.8rem; }
-
-    section { padding: 3rem 1rem; }
-
-    .section-header { gap: 0.6rem; margin-bottom: 2rem; }
-    .section-title { font-size: clamp(1.6rem, 7vw, 2rem); }
-    .section-line { display: none; }
-
-    .skills-grid { grid-template-columns: 1fr; gap: 0.85rem; }
-    .skill-card { padding: 1.25rem; border-radius: 16px; }
-    .skill-icon { width: 40px; height: 40px; font-size: 1.2rem; border-radius: 10px; }
-
-    .exp-list { gap: 1rem; }
-    .exp-card { padding: 1.25rem; border-radius: 16px; gap: 0.5rem; }
-    .exp-year { display: none; }
-    .exp-content h3 { font-size: 1.05rem; }
-    .exp-content p { font-size: 0.85rem; }
-
-    .projects-grid { grid-template-columns: 1fr; gap: 0.85rem; }
-    .project-card { padding: 1.25rem; border-radius: 16px; }
-    .project-card h3 { font-size: 1rem; }
-    .project-card p { font-size: 0.82rem; }
-
-    .edu-grid { gap: 1.25rem; }
-    .edu-school { padding: 1.25rem; border-radius: 16px; }
-    .edu-school .school-name { font-size: 1.15rem; }
-    .semester-card { padding: 1.25rem; border-radius: 16px; }
-    .sem-header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
-    .sem-courses { gap: 0.4rem; }
-    .course { font-size: 0.75rem; padding: 0.28rem 0.7rem; }
-
-    .certs-row { flex-direction: column; gap: 0.85rem; }
-    .cert-card { padding: 1.25rem; border-radius: 16px; min-width: unset; }
-
-    .contact-section { padding: 3rem 1rem; }
-    .contact-section .big-text { font-size: clamp(2rem, 10vw, 3rem); }
-    .socials { flex-direction: column; align-items: stretch; gap: 0.65rem; }
-    .social-btn { justify-content: center; width: 100%; }
-    .contact-info { flex-direction: column; gap: 0.4rem; font-size: 0.75rem; }
-
-    footer { padding: 1.2rem 1rem; font-size: 0.65rem; }
-
-    .tags { gap: 0.35rem; }
-    .tag { font-size: 0.65rem; padding: 0.25rem 0.6rem; }
-    .proj-footer { gap: 0.35rem; }
-    .proj-pill { font-size: 0.6rem; }
-  }
-
-  /* Fade in on scroll */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-  /* STAND ALONE  */
-  #current-status-badge {
-  display: inline-block;
-  background: #E2EAFF;
-  color: #0047FF;
-  font-family: 'Courier New', monospace;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.5px;
-  padding: 6px 14px;
-  border-radius: 20px;
-}
+:root{--bg:#E8EDF5;--bg2:#DCE3EF;--ink:#0B1F3A;--mute:#52627C;--line:#BAC6D9;--acc:#2D3BFF;--acc2:#0A8F6A;--net:45,59,255;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1224;--bg2:#101B33;--ink:#E8EDF8;--mute:#93A2BF;--line:#25345A;--acc:#8794FF;--acc2:#4FE0B0;--net:135,148,255}}
+:root[data-theme="dark"]{--bg:#0A1224;--bg2:#101B33;--ink:#E8EDF8;--mute:#93A2BF;--line:#25345A;--acc:#8794FF;--acc2:#4FE0B0;--net:135,148,255}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:1.05rem;line-height:1.6;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--acc);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 clamp(1.1rem,4vw,2.5rem)}
+.serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:56px;gap:1rem}
+.logo{font-weight:800;text-decoration:none;letter-spacing:-.02em}
+nav{display:flex;gap:1.3rem;font-size:.92rem;overflow-x:auto;scrollbar-width:none}
+nav a{text-decoration:none;color:var(--mute);white-space:nowrap}
+nav a:hover{color:var(--ink)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--acc2);margin-right:.5rem;box-shadow:0 0 0 0 var(--acc2);animation:ping 2.4s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+
+.hero{position:relative;min-height:88vh;display:flex;align-items:center;border-bottom:1px solid var(--line)}
+#net{position:absolute;inset:0;width:100%;height:100%}
+.hero .wrap{position:relative;pointer-events:none;padding-top:3rem;padding-bottom:3rem}
+.hero a,.hero button{pointer-events:auto}
+.hi{display:flex;align-items:center;font-size:.95rem;color:var(--mute);margin-bottom:1.4rem}
+h1{font-size:clamp(2.6rem,8.2vw,6.6rem);line-height:.98;letter-spacing:-.045em;font-weight:800;max-width:15ch}
+h1 em{font-family:'Instrument Serif',serif;font-weight:400;font-style:italic;letter-spacing:-.02em;color:var(--acc)}
+.lede{max-width:52ch;margin-top:1.8rem;font-size:1.2rem;color:var(--mute)}
+.lede b{color:var(--ink);font-weight:600}
+.cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+.btn{display:inline-block;padding:.8rem 1.4rem;border-radius:999px;text-decoration:none;font-weight:600;border:1.5px solid var(--ink);background:none;color:var(--ink);font:inherit;font-weight:600;cursor:pointer;transition:background .2s,color .2s}
+.btn.fill{background:var(--ink);color:var(--bg)}
+.btn:hover{background:var(--acc);border-color:var(--acc);color:#fff}
+.hero>.wrap>*{animation:in .8s cubic-bezier(.2,.7,.2,1) both}
+.hero>.wrap>*:nth-child(2){animation-delay:.1s}.hero>.wrap>*:nth-child(3){animation-delay:.2s}.hero>.wrap>*:nth-child(4){animation-delay:.3s}
+@keyframes in{from{opacity:0;transform:translateY(24px)}}
+
+section{padding:clamp(3.5rem,9vw,6.5rem) 0;border-bottom:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:220px 1fr;gap:clamp(1.5rem,5vw,4rem)}
+h2{font-size:1.9rem;line-height:1.1;letter-spacing:-.03em;font-weight:800;position:sticky;top:80px;align-self:start}
+h2 small{display:block;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1.15rem;color:var(--mute);letter-spacing:0;margin-top:.4rem}
+@media(max-width:760px){.grid{grid-template-columns:1fr}h2{position:static;margin-bottom:.5rem}}
+
+.now p{font-size:clamp(1.3rem,2.6vw,1.75rem);line-height:1.35;letter-spacing:-.02em;margin-bottom:1.2rem}
+.now p:last-child{margin-bottom:0}
+.now mark{background:none;color:var(--acc);font-weight:600}
+
+details{border-top:1px solid var(--line)}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:1.15rem 0;font-size:1.25rem;font-weight:600;letter-spacing:-.02em}
+summary::-webkit-details-marker{display:none}
+summary .st{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:1rem;color:var(--mute);white-space:nowrap}
+summary::after{content:'+';font-weight:400;font-size:1.6rem;color:var(--acc);transition:transform .25s;line-height:1}
+details[open] summary::after{transform:rotate(45deg)}
+summary:hover{color:var(--acc)}
+details .body{padding:0 2.2rem 1.5rem 0;color:var(--mute);max-width:62ch}
+.stack{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.9rem}
+.stack span{font-size:.8rem;padding:.2rem .7rem;border:1px solid var(--line);border-radius:999px;color:var(--ink);background:var(--bg2)}
+.body a{color:var(--acc);font-weight:600}
+
+.tl{list-style:none;position:relative;padding-left:1.6rem;border-left:2px solid var(--line)}
+.tl li{position:relative;padding-bottom:2.2rem}
+.tl li:last-child{padding-bottom:0}
+.tl li::before{content:'';position:absolute;left:calc(-1.6rem - 7px);top:.5rem;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--acc)}
+.tl li.cur::before{background:var(--acc2);border-color:var(--acc2)}
+.tl .when{font-family:'Instrument Serif',serif;font-style:italic;color:var(--mute)}
+.tl h3{font-size:1.2rem;letter-spacing:-.02em;line-height:1.3}
+.tl p{color:var(--mute);margin-top:.4rem;max-width:62ch;font-size:1rem}
+
+.learn{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem}
+.learn h3{font-size:1.1rem;margin-bottom:.4rem}
+.learn p,.learn li{color:var(--mute);font-size:.98rem}
+.learn ul{list-style:none}
+.learn li{padding:.35rem 0;border-bottom:1px dashed var(--line)}
+.learn .big{grid-column:1/-1;font-size:clamp(1.3rem,2.6vw,1.75rem);line-height:1.3;color:var(--ink);letter-spacing:-.02em}
+
+.say{padding:clamp(4rem,10vw,8rem) 0 3rem;border:0}
+.say h2{position:static;font-size:clamp(2.6rem,9vw,7rem);line-height:.95;letter-spacing:-.045em;margin-bottom:1.5rem}
+.say p{color:var(--mute);max-width:46ch;font-size:1.15rem}
+.mail{display:inline-block;margin-top:1.6rem;font-size:clamp(1.2rem,3.6vw,2.2rem);font-weight:600;letter-spacing:-.03em;text-decoration-thickness:2px;text-underline-offset:.25em;color:var(--acc);word-break:break-all}
+.links{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.6rem}
+footer{padding:1.6rem 0 2rem;color:var(--mute);font-size:.88rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<header><div class="wrap">
+  <a class="logo" href="#top">Riken Patel</a>
+  <nav aria-label="Sections"><a href="#now">Now</a><a href="#built">Built</a><a href="#path">Path</a><a href="#school">School</a><a href="#hello">Say hi</a></nav>
+</div></header>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<div class="progress-bar" id="progressBar"></div>
-
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">R<span>.</span>Patel</div>
-  <ul class="nav-links">
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="https://github.com/regalriken"> <i class="fa-brands fa-github" id="gitIcon"></i></a>
-      </li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-bg-shape"></div>
-  <div class="hero-bg-shape2"></div>
-
-  <div class="hero-left">
-    <div class="hero-badge">Open to opportunities</div>
-    <h1>
-      Riken<br>
-      <span class="name-accent">Patel</span><br>
-      <span class="name-line2">Networks</span>
-    </h1>
-    <p class="hero-desc">
-      CompTIA A+ Certified systems and network professional driven to build, secure, and automate. I architect reliable infrastructure, harden Linux environments, and engineer automation solutions and bringing real-world impact from day one.
-    </p>
-    <div class="hero-cta">
-      <a href="mailto:rikenpatel2005@gmail.com" class="btn-primary"><i class="fa-regular fa-envelope"></i> Get In Touch</a>
-      <a href="#projects" class="btn-secondary">View Projects →</a>
-      
-      
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="hero-card" style="transform: rotate(1.5deg);">
-      <div class="hero-card-accent c1"></div>
-      <div class="hero-card-tag">Latest Achievement</div>
-      <div class="hero-card-title">✅ CompTIA A+  Certified</div>
-    </div>
-    <div class="hero-card" style="transform: rotate(-1deg);">
-      <div class="hero-card-accent c2"></div>
-      <div class="hero-card-tag">🪟 Currently active on</div>
-      <div class="hero-card-title">PowerShell srcipting</div>
-    </div>
-    <div class="hero-card" style="transform: rotate(0.5deg);">
-      <div class="hero-card-accent c3"></div>
-      <div class="hero-card-tag">Next Target</div>
-      <div class="hero-card-title">🔐 Cybersecurity: Pentesting and it's techniques</div>
-    </div>
-    <div class="stat-row">
-      <div class="stat-box">
-        <div class="num">A+</div>
-        <div class="label">CompTIA Certified</div>
-      </div>
-      <div class="stat-box">
-        <div class="num">3+</div>
-        <div class="label">Live Projects</div>
-      </div>
-      <div class="stat-box">
-        <div class="num">SEC+</div>
-        <div class="label">Next Goal</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item">Linux Server Admin</span>
-    <span class="marquee-item">Computer Networking</span>
-     <span class="marquee-item">Powershell</span>
-    <span class="marquee-item">Cloud Computing</span>
-    <span class="marquee-item">Python Automation</span>
-    <span class="marquee-item">Active Directory</span>
-    <span class="marquee-item">MySQL & SQL</span>
-    <span class="marquee-item">API Integration</span>
-    <span class="marquee-item">Raspberry Pi</span>
-    <span class="marquee-item">Backend JS</span>
-    <span class="marquee-item">Azure</span>
-     <span class="marquee-item">Data Center Technologies</span>
-
-    <span class="marquee-item">Linux Server Admin</span>
-    <span class="marquee-item">Computer Networking</span>
-     <span class="marquee-item">Powershell</span>
-    <span class="marquee-item">Cloud Computing</span>
-    <span class="marquee-item">Python Automation</span>
-    <span class="marquee-item">Active Directory</span>
-    <span class="marquee-item">MySQL & SQL</span>
-    <span class="marquee-item">API Integration</span>
-    <span class="marquee-item">Raspberry Pi</span>
-    <span class="marquee-item">Backend JS</span>
-    <span class="marquee-item">Azure</span>
-     <span class="marquee-item">Data Center Technologies</span>
-
-  </div>
-</div>
-
-<!-- SKILLS -->
-<section class="skills-section" id="skills">
-  <div class="section-header fade-in">
-    <span class="section-num">01.</span>
-    <h2 class="section-title">Skills</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="skills-grid">
-    <div class="skill-card fade-in">
-      <div class="skill-icon si-red">🛡</div>
-      <h3>Active Directory & Security</h3>
-      <p>Administered and secured Windows Active Directory and Domain Services. Designed and deployed LAMP Linux servers with a strong security focus.</p>
-      <div class="tags">
-        <span class="tag red">Active Directory</span>
-        <span class="tag red">Windows Server</span>
-        <span class="tag red">LAMP</span>
-      </div>
-    </div>
-    <div class="skill-card fade-in">
-      <div class="skill-icon si-blue">☁️</div>
-      <h3>Cloud & Collaboration</h3>
-      <p>Proficient in GitHub, Microsoft Excel, and Microsoft Azure basic cloud computing services. Comfortable navigating cloud platforms for real-world deployments.</p>
-      <div class="tags">
-        <span class="tag blue">Microsoft Azure</span>
-        <span class="tag blue">GitHub</span>
-        <span class="tag blue">Cloud Services</span>
-      </div>
-    </div>
-    <div class="skill-card fade-in">
-      <div class="skill-icon si-green">⚡</div>
-      <h3>Automation & Programming</h3>
-      <p>Virtualization for system performance. Python for automating SQL database tasks and network device discovery. Backend development with JavaScript.</p>
-      <div class="tags">
-        <span class="tag green">Python</span>
-        <span class="tag green">MySQL</span>
-        <span class="tag green">JavaScript</span>
-        <span class="tag green">Shell Scripting</span>
-      </div>
-    </div>
-    <div class="skill-card fade-in">
-      <div class="skill-icon si-yellow">🔌</div>
-      <h3>API Integration</h3>
-      <p>Experience working with Google APIs to enhance functionality in home network projects. Built cloud-connected Raspberry Pi projects using API-driven automation.</p>
-      <div class="tags">
-        <span class="tag">Google API</span>
-        <span class="tag">REST</span>
-        <span class="tag">Raspberry Pi</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="section-header fade-in">
-    <span class="section-num">02.</span>
-    <h2 class="section-title">Experience</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="exp-list">
-  <div class="exp-card fade-in">
-    <div class="exp-year">2025</div>
-    <div class="exp-content">
-      
-      <h3>Sales Associate — Food and Consumables Department</h3>
-        <div id="current-status-badge">Current</div>
-      <p><em>Walmart | Aug 2025 – Present</em></p>
-      <p>Delivered front-line customer service in a high-volume retail environment, assisting shoppers with product location, inquiries, and checkout, while monitoring and replenishing stock levels following freshness, rotation, and food-safety standards.</p>
-      <p>Operated POS systems and processed cash/card transactions accurately, collaborating with team members to meet daily department goals and building reliability, time management, and multitasking skills in a fast-paced setting.</p>
-      <div class="tags">
-        <span class="tag">Customer Service</span>
-        <span class="tag">POS Systems</span>
-        <span class="tag">Retail Operations</span>
-        <span class="tag">Teamwork</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="exp-card fade-in">
-    <div class="exp-year">2026</div>
-    <div class="exp-content">
-      <h3>Peer Tutor — CSTN Program</h3>
-      <p><em>Georgian College, Barrie, ON | May 2026 – Aug 2026</em></p>
-      <p>Supported fellow CSTN students with course concepts including Python programming, MySQL, and computer networking fundamentals, explaining subnetting, network device configuration, and troubleshooting techniques in one-on-one and small group settings.</p>
-      <p>Assisted peers with Linux server administration, Active Directory, and virtualization, helping students debug code and database queries to reinforce real-world problem-solving approaches.</p>
-      <div class="tags">
-        <span class="tag blue">Python</span>
-        <span class="tag blue">MySQL</span>
-        <span class="tag blue">Networking</span>
-        <span class="tag blue">Linux</span>
-        <span class="tag blue">Teaching</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="exp-card fade-in">
-    <div class="exp-year">2025</div>
-    <div class="exp-content">
-      <h3>Service Desk Job Simulation</h3>
-      <p><em>Forage | Online | 2025</em></p>
-      <p>Handled simulated IT support tickets replicating real-world help desk workflows, practicing triaging, escalating, and resolving end-user issues under SLA constraints.</p>
-      <p>Applied troubleshooting best practices for hardware, software, and connectivity issues.</p>
-      <div class="tags">
-        <span class="tag blue">IT Support</span>
-        <span class="tag blue">Troubleshooting</span>
-        <span class="tag blue">SLA Management</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="exp-card fade-in">
-    <div class="exp-year">2024</div>
-    <div class="exp-content">
-      <h3>Help Desk Technician</h3>
-      <p><em>Akshar Accounting and Investments — Share Brokers | Mutual Fund Agents, Borsad, India | 6 Months</em></p>
-      <p>Provided first-line technical support for staff, resolving hardware, software, and connectivity issues, while maintaining workstations, printers, and peripherals in a financial services environment.</p>
-      <p>Assisted with account and user management tasks including password resets and access provisioning, supporting day-to-day IT operations for broking and mutual fund transaction systems.</p>
-      <div class="tags">
-        <span class="tag blue">IT Support</span>
-        <span class="tag blue">Hardware</span>
-        <span class="tag blue">User Management</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="exp-card fade-in">
-    <div class="exp-year">2023</div>
-    <div class="exp-content">
-      <h3>Technical Instructor — Python Programming</h3>
-      <p>Taught intermediate-level Python concepts, integrating MySQL with Python for database-driven applications. Delivered lessons on core programming, automation, and practical problem-solving.</p>
-      <p>Also provided instruction in Computer Networks, emphasizing network fundamentals, configuration, and real-world applications.</p>
-      <p>Developed a full <strong>Hospital Management System</strong> in Python with MySQL featuring modules for patient records, doctors, appointments, and billing — with CRUD operations and query optimization.</p>
-      <div class="tags">
-        <span class="tag blue">Python</span>
-        <span class="tag blue">MySQL</span>
-        <span class="tag blue">Networking</span>
-        <span class="tag blue">Teaching</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="exp-card fade-in">
-    <div class="exp-year">Prior</div>
-    <div class="exp-content">
-      <h3>Journalist</h3>
-      <p>Covered political developments, public issues, and emerging stories with a focus on clear, factual, and engaging reporting. Researched complex topics, interviewed sources, and crafted well-structured articles.</p>
-      <p>Developed strong communication skills, fast information analysis, and the discipline to meet tight deadlines — sharpening storytelling and commitment to high-quality, neutral content.</p>
-      <div class="tags">
-        <span class="tag">Research</span>
-        <span class="tag">Communication</span>
-        <span class="tag">Writing</span>
-        <span class="tag">Reporting</span>
-      </div>
+<main id="top">
+<div class="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <p class="hi"><span class="dot"></span>Barrie, Ontario &middot; open to IT and networking roles</p>
+    <h1>I'm Riken. I make <em>networks</em> and servers behave.</h1>
+    <p class="lede">I'm a systems and networking graduate from Georgian College. I like building things that stay up, locking them down, and then scripting away the boring parts. <b>Before IT, I was a journalist.</b> That's why I explain things in plain words.</p>
+    <div class="cta">
+      <a class="btn fill" href="mailto:riken@batmanofbarrie.com">Email me</a>
+      <a class="btn" href="#built">See what I've built</a>
     </div>
   </div>
 </div>
-</section>
 
-<!-- PROJECTS -->
-<section class="projects-section" id="projects">
-  <div class="section-header fade-in">
-    <span class="section-num" style="color:var(--yellow)">03.</span>
-    <h2 class="section-title">Projects</h2>
-    <div class="section-line"></div>
-    
+<section id="now"><div class="wrap grid">
+  <h2>Right now<small>the short version</small></h2>
+  <div class="now">
+    <p>I just graduated from Georgian College's Computer Systems Technician &ndash; Networking program, on the Dean's List, and I hold my <mark>CompTIA A+</mark>.</p>
+    <p>I'm writing <mark>PowerShell</mark> every week, finishing my Twitter and YouTube backend clones in JavaScript, and working at Walmart in Food &amp; Consumables.</p>
+    <p>For fun, I'm working through <mark>TryHackMe</mark> at a relaxed pace. The goal after that is <mark>Security+</mark>, then penetration testing. I want to learn how things get broken so I can build them better.</p>
   </div>
-  <div class="projects-grid">
+</div></section>
 
-    <div class="project-card fade-in">
-      <span class="proj-tag pt-completed">✅ Completed</span>
-      <h3>A+ Certification</h3>
-      <p>Earned CompTIA A+ certification — covering hardware, troubleshooting, OS fundamentals, and IT support methodologies with demonstrated hands-on technical knowledge.</p>
-      <div class="proj-footer">
-        <span class="proj-pill">CompTIA</span>
-        <span class="proj-pill">Hardware</span>
-        <span class="proj-pill">Troubleshooting</span>
-      </div>
-    </div>
-
-    <div class="project-card fade-in">
-      <span class="proj-tag pt-wip">⚙️ Building</span>
-      <h3>Backend JS — Twitter & YouTube Clones</h3>
-      <p>Building full backend clones of Twitter and YouTube using JavaScript. Covers REST APIs, authentication, database integration, and scalable server architecture patterns.</p>
-      <div class="proj-footer">
-        <span class="proj-pill">Node.js</span>
-        <span class="proj-pill">REST API</span>
-        <span class="proj-pill">Auth</span>
-        <span class="proj-pill">JavaScript</span>
-      </div>
-    </div>
-
-    <div class="project-card fade-in">
-      <a href="https://github.com/regalriken/LAMP-STACK" target="_blank" rel="noopener noreferrer"><span class="proj-tag pt-completed">✅ Completed — Click Here</span></a>
-      <h3>LAMP Server Setup & Security Monitoring</h3>
-      <p>Developed and configured a secure LAMP server to host web projects using Linux, Apache, MySQL, and PHP. Implemented user management systems to facilitate web deployment.</p>
-      <div class="proj-footer">
-        <span class="proj-pill">Linux</span>
-        <span class="proj-pill">Apache</span>
-        <span class="proj-pill">MySQL</span>
-        <span class="proj-pill">PHP</span>
-      </div>
-    </div>
-
-    <div class="project-card fade-in">
-      <span class="proj-tag pt-completed">✅ Completed</span>
-      <h3>Ubuntu 20.04 Security Enhancement</h3>
-      <p>Implemented comprehensive security measures across SSH and VPN on Ubuntu — enforcing strong authentication, encryption, firewall rules, and intrusion detection. Established robust backup and disaster recovery procedures.</p>
-      <div class="proj-footer">
-        <span class="proj-pill">Ubuntu</span>
-        <span class="proj-pill">SSH</span>
-        <span class="proj-pill">VPN</span>
-        <span class="proj-pill">IDS</span>
-        <span class="proj-pill">Firewall</span>
-      </div>
-    </div>
-
-    <div class="project-card fade-in">
-      <span class="proj-tag pt-completed">✅ Completed</span>
-      <h3>Cloud Photo Frame — Raspberry Pi 5</h3>
-      <p>Built a fully cloud-integrated photo frame on a Raspberry Pi 5. Used Python and HTML for image rendering, Google Drive API for secure cloud photo retrieval, and a Python backend for dynamic slideshow generation.</p>
-      <div class="proj-footer">
-        <span class="proj-pill">Raspberry Pi</span>
-        <span class="proj-pill">Python</span>
-        <span class="proj-pill">Google Drive API</span>
-        <span class="proj-pill">Cloud</span>
-      </div>
-    </div>
-
-    <div class="project-card fade-in">
-      <a href="https://github.com/regalriken/Hospital-Management" target="_blank" rel="noopener noreferrer"><span class="proj-tag pt-completed">✅ Completed — Click Here</span></a>
-      <h3>Hospital Management System</h3>
-      <p>Python + MySQL system with modules for patient records, doctor management, appointments, and billing. Implemented CRUD operations, database integration, and query optimization for efficient healthcare workflows.</p>
-      <div class="proj-footer">
-        <span class="proj-pill">Python</span>
-        <span class="proj-pill">MySQL</span>
-        <span class="proj-pill">CRUD</span>
-        <span class="proj-pill">Healthcare</span>
-      </div>
-    </div>
-
+<section id="built"><div class="wrap grid">
+  <h2>Things I've built<small>tap one to open it</small></h2>
+  <div>
+    <details open><summary>LAMP server with security monitoring<span class="st">completed</span></summary><div class="body">
+      A secure Linux, Apache, MySQL and PHP server to host web projects, with user management set up for web deployment.
+      <div class="stack"><span>Linux</span><span>Apache</span><span>MySQL</span><span>PHP</span></div>
+      <p style="margin-top:.8rem"><a href="https://github.com/regalriken/LAMP-STACK" target="_blank" rel="noopener noreferrer">See it on GitHub</a></p></div></details>
+    <details><summary>Cloud photo frame on a Raspberry Pi 5<span class="st">completed</span></summary><div class="body">
+      A photo frame that pulls pictures from Google Drive through the Drive API. A Python backend builds the slideshow and HTML renders it.
+      <div class="stack"><span>Raspberry Pi</span><span>Python</span><span>Google Drive API</span></div></div></details>
+    <details><summary>Ubuntu 20.04 security hardening<span class="st">completed</span></summary><div class="body">
+      Secured SSH and VPN access with strong authentication and encryption, added firewall rules and intrusion detection, and set up backup and disaster recovery.
+      <div class="stack"><span>Ubuntu</span><span>SSH</span><span>VPN</span><span>IDS</span><span>Firewall</span></div></div></details>
+    <details><summary>Hospital management system<span class="st">completed</span></summary><div class="body">
+      Python and MySQL, with modules for patient records, doctors, appointments and billing. It has full CRUD and optimized queries.
+      <div class="stack"><span>Python</span><span>MySQL</span><span>CRUD</span></div>
+      <p style="margin-top:.8rem"><a href="https://github.com/regalriken/Hospital-Management" target="_blank" rel="noopener noreferrer">See it on GitHub</a></p></div></details>
+    <details><summary>Twitter and YouTube backend clones<span class="st">in progress</span></summary><div class="body">
+      Full backends in JavaScript: REST APIs, authentication, database integration and scalable server structure.
+      <div class="stack"><span>Node.js</span><span>REST API</span><span>Auth</span></div></div></details>
+    <p style="margin-top:1.5rem;color:var(--mute)">More on <a href="https://github.com/regalriken" target="_blank" rel="noopener noreferrer" style="color:var(--acc);font-weight:600">my GitHub</a>.</p>
   </div>
-</section>
+</div></section>
 
-<!-- EDUCATION -->
-<section id="education">
-  <div class="section-header fade-in">
-    <span class="section-num">04.</span>
-    <h2 class="section-title">Education</h2>
-    <div class="section-line"></div>
+<section id="path"><div class="wrap grid">
+  <h2>The path so far<small>newest first</small></h2>
+  <ol class="tl">
+    <li class="cur"><span class="when">Aug 2025 &ndash; now</span><h3>Sales Associate, Walmart</h3>
+      <p>Food and Consumables. High-volume customer service, POS, and keeping stock fresh and food-safe. It taught me reliability and how to juggle five things at once.</p></li>
+    <li><span class="when">May &ndash; Aug 2026</span><h3>Peer Tutor, CSTN Program, Georgian College</h3>
+      <p>Helped classmates with Python, MySQL, subnetting, Linux, Active Directory and virtualization, one-on-one and in small groups.</p></li>
+    <li><span class="when">2025</span><h3>Service Desk Job Simulation, Forage</h3>
+      <p>Triaged, escalated and resolved simulated tickets under SLA pressure.</p></li>
+    <li><span class="when">2024 &middot; 6 months</span><h3>Help Desk Technician, Akshar Accounting and Investments</h3>
+      <p>First-line support in a brokerage office in Borsad, India: hardware, software, connectivity, password resets and access setup.</p></li>
+    <li><span class="when">2023</span><h3>Technical Instructor, Python and Networks</h3>
+      <p>Taught intermediate Python with MySQL, plus networking fundamentals. I also built the hospital system above for the course.</p></li>
+    <li><span class="when">Before tech</span><h3>Journalist</h3>
+      <p>Covered politics and public issues, interviewed sources and wrote to deadline. It's where I learned to research fast and stay neutral.</p></li>
+  </ol>
+</div></section>
+
+<section id="school"><div class="wrap grid">
+  <h2>School and certs<small>the paper trail</small></h2>
+  <div class="learn">
+    <p class="big serif">Graduate of Georgian College, Computer Systems Technician &ndash; Networking. Barrie, ON. Dean's List.</p>
+    <div><h3>What I've studied</h3><ul>
+      <li>Windows and Linux server administration</li><li>Networking and virtualization</li><li>Python, MySQL, shell scripting</li><li>Cloud computing, data centre technologies</li><li>IT project management</li></ul></div>
+    <div><h3>Certifications</h3><ul>
+      <li>CompTIA A+</li><li>Cisco CCNA: Introduction to Networking</li><li>Cisco CCNA: Routing &amp; Switching</li></ul></div>
+    <div><h3>Also comfortable with</h3><ul>
+      <li>Active Directory</li><li>Microsoft Azure basics</li><li>GitHub and Excel</li><li>Google APIs</li></ul></div>
   </div>
-  <div class="edu-grid">
-    <div class="edu-school fade-in">
-      <div class="school-name">Georgian College</div>
-      <div class="school-sub">Computer System Technicians & Networking Program<br>Barrie, Ontario</div>
-      <div class="school-badge">🏆 Dean's List</div>
-      <div class="tags" style="margin-top:1.5rem">
-        <span class="tag green">Networking</span>
-        <span class="tag green">Windows Server</span>
-        
-      
-        <span class="tag green">Linux</span>
-        <span class="tag green">Cloud</span>
-        <span class="tag green">Criminology</span>
-        <span class="tag green">Python</span>
-          <span class="tag green">Data Center Technologies</span>
-      </div>
-    </div>
-    <div class="semester-list">
-      <div class="semester-card fade-in">
-        <div class="sem-header">
-          <div class="sem-title">Semester 1</div>
-          <!-- <div class="sem-grade"></div>     Blank     -->
-        </div>
-        <div class="sem-courses">
-          <span class="course">Windows Server Administration</span>
-          <span class="course">Linux Server Administration</span>
-          <span class="course">Introduction to Networking</span>
-        </div>
-      </div>
-      <div class="semester-card fade-in">
-        <div class="sem-header">
-          <div class="sem-title">Semester 2</div>
-                    <!-- <div class="sem-grade"></div>     Blank     -->
-        </div>
-        <div class="sem-courses">
-          <span class="course">Network Admin (Linux & Windows)</span>
-          <span class="course">Computer Virtualization</span>
-          <span class="course">Python Programming</span>
-        </div>
-      </div>
-      <div class="semester-card fade-in">
-        <div class="sem-header">
-          <div class="sem-title">Semester 3</div>
-                    <!-- <div class="sem-grade"></div>     Blank     -->
-        </div>
-        <div class="sem-courses">
-          <span class="course">Relational Database Management (MySQL)</span>
-          <span class="course">Cloud Computing Services</span>
-          <span class="course">Shell Scripting & Linux Automation</span>
-        </div>
-      </div>
-            <div class="semester-card fade-in">
-        <div class="sem-header">
-          <div class="sem-title">Semester 4</div>
-   
-        
-        </div>
-        <div class="sem-courses">
-          <span class="course">Project Management for IT</span>
-          <span class="course">Criminology</span>          
-          <span class="course">Data Centre Technologies</span>
-        </div>
-      </div>
-    </div>
+</div></section>
+
+<section class="say" id="hello"><div class="wrap">
+  <h2>Let's talk.</h2>
+  <p>I'm looking for my first full-time IT or networking role, where I can work on real systems. If you're building a team, or just want to talk networking, write to me.</p>
+  <a class="mail" href="mailto:riken@batmanofbarrie.com">riken@batmanofbarrie.com</a>
+  <div class="links">
+    <a class="btn" href="https://linkedin.com/in/riken-patel007" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a class="btn" href="https://github.com/regalriken" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a class="btn" href="https://instagram.com/notriken" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <a class="btn" href="https://facebook.com/notriken" target="_blank" rel="noopener noreferrer">Facebook</a>
   </div>
-</section>
+</div></section>
+</main>
 
-<!-- CERTIFICATIONS -->
-<section class="certs-section" id="certifications">
-  <div class="section-header fade-in">
-    <span class="section-num">05.</span>
-    <h2 class="section-title">Certifications</h2>
-    <div class="section-line"></div>
-  </div>
-  <div class="certs-row">
-    <div class="cert-card fade-in">
-      <div class="cert-icon">🌐</div>
-      <div class="cert-body">
-        <div class="cert-name">CCNA — Introduction to Networking Essentials</div>
-        <div class="cert-org">Cisco Networking Academy</div>
-      </div>
-    </div>
-    <div class="cert-card fade-in">
-      <div class="cert-icon">🔀</div>
-      <div class="cert-body">
-        <div class="cert-name">CCNA — Routing & Switching</div>
-        <div class="cert-org">Cisco Networking Academy</div>
-      </div>
-    </div>
-    <div class="cert-card fade-in">
-      <div class="cert-icon" style="background: var(--accent3);">✅</div>
-      <div class="cert-body">
-        <div class="cert-name">CompTIA A+ — Certified</div>
-        <div class="cert-org">CompTIA</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<section class="contact-section" id="contact">
-  <p class="big-text fade-in">Let's <span>Connect</span></p>
-  <p class="sub fade-in">Open to internships, co-ops, and exciting tech conversations.</p>
-
-  <div class="socials fade-in">
-    <a href="https://linkedin.com/in/riken-patel007" class="social-btn linkedin" target="_blank" rel="noopener noreferrer">
-      <i class="fa-brands fa-linkedin-in"></i> LinkedIn
-    </a>
-    <a href="https://instagram.com/notriken" class="social-btn instagram" target="_blank" rel="noopener noreferrer">
-      <i class="fa-brands fa-instagram"></i> Instagram
-    </a>
-    <a href="https://facebook.com/notriken" class="social-btn facebook" target="_blank" rel="noopener noreferrer">
-      <i class="fa-brands fa-facebook-f"></i> Facebook
-    </a>
-    <a href="mailto:rikenpatel2005@gmail.com" class="social-btn email">
-      <i class="fa-regular fa-envelope"></i> Email Me
-    </a>
-  </div>
-
-  <div class="contact-info fade-in">
-    <a href="https://www.google.com/maps/search/?api=1&query=Barrie,+ON" target="_blank" rel="noopener noreferrer" class="address-link">
-      <i class="fa-solid fa-location-dot"></i> Barrie, ON
-    </a>
-    <span><i class="fa-regular fa-envelope"></i> rikenpatel2005@gmail.com</span>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <span>© 2026 Riken Patel — All rights reserved</span>
-  <span>Built with 🔥 | Barrie, Ontario</span>
-</footer>
+<footer><div class="wrap"><span>&copy; 2026 Riken Patel</span><span class="serif" style="font-style:italic;font-size:1.1rem;color:var(--ink)">&ldquo;A cheerful heart is good medicine.&rdquo;</span><span>Made in Barrie, Ontario</span></div></footer>
 
 <script>
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-
-let mx = 0, my = 0; // Mouse coordinates
-let rx = 0, ry = 0; // Ring coordinates
-let cx = 0, cy = 0; // Cursor coordinates (for smoothing)
-let hovering = false;
-
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; 
-  my = e.clientY;
-});
-
-function animate() {
-  // 1. Smooth the Cursor (Optional but keeps it synced with Ring)
-  // We use a very high interpolation (0.4) so it feels snappy but stays in the loop
-  cx += (mx - cx) * 0.4;
-  cy += (my - cy) * 0.4;
-  
-  // 2. Smooth the Ring (Standard delay)
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-
-  // 3. Apply Transforms simultaneously
-  // Note: We use -6 and -18 to center the elements based on your CSS widths
-  cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px) scale(${hovering ? 1.8 : 1})`;
-  ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px) scale(${hovering ? 1.4 : 1})`;
-
-  requestAnimationFrame(animate);
-}
-
-animate();
-
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => { hovering = true; });
-    el.addEventListener('mouseleave', () => { hovering = false; });
-  });
-
-  // Progress bar
-  const bar = document.getElementById('progressBar');
-  window.addEventListener('scroll', () => {
-    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
-    bar.style.width = pct + '%';
-  });
-
-  // Fade-in on scroll
-  const faders = document.querySelectorAll('.fade-in');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-  }, { threshold: 0.12 });
-  faders.forEach(f => obs.observe(f));
+(function(){
+  var c=document.getElementById('net'),x=c.getContext('2d'),W,H,P=[],m={x:-999,y:-999},
+      still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function size(){var r=c.getBoundingClientRect(),d=devicePixelRatio||1;W=r.width;H=r.height;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0);
+    var n=Math.round(Math.min(70,W*H/16000));P=[];for(var i=0;i<n;i++)P.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35})}
+  function col(){return getComputedStyle(document.documentElement).getPropertyValue('--net').trim()}
+  function draw(){
+    var k=col(),L=130;x.clearRect(0,0,W,H);
+    for(var i=0;i<P.length;i++){var a=P[i];
+      if(!still){a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>W)a.vx*=-1;if(a.y<0||a.y>H)a.vy*=-1}
+      for(var j=i+1;j<P.length;j++){var b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+        if(d<L){x.strokeStyle='rgba('+k+','+(.28*(1-d/L))+')';x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}
+      var dm=Math.hypot(a.x-m.x,a.y-m.y);
+      if(dm<170){x.strokeStyle='rgba('+k+','+(.7*(1-dm/170))+')';x.lineWidth=1.4;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(m.x,m.y);x.stroke();x.lineWidth=1}
+      x.fillStyle='rgba('+k+',.75)';x.beginPath();x.arc(a.x,a.y,2.2,0,6.283);x.fill()}
+    if(!still)requestAnimationFrame(draw)}
+  var h=c.parentElement;
+  h.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();m.x=e.clientX-r.left;m.y=e.clientY-r.top});
+  h.addEventListener('pointerleave',function(){m.x=m.y=-999});
+  addEventListener('resize',function(){size();if(still)draw()});
+  size();draw();
+})();
 </script>
 </body>
 </html>
