@@ -92,6 +92,11 @@ details .body{padding:0 2.2rem 1.5rem 0;color:var(--mute);max-width:62ch}
 .links{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.6rem}
 footer{padding:1.6rem 0 2rem;color:var(--mute);font-size:.88rem}
 footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.hero-thought{margin-top:2.6rem;max-width:54ch;padding-left:1.1rem;border-left:3px solid var(--acc)}
+.hero-thought .lab{font-size:.88rem;color:var(--mute)}
+.hero-thought blockquote{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:clamp(1.35rem,2.8vw,1.8rem);line-height:1.22;margin:.25rem 0}
+.hero-thought p{font-size:.92rem;color:var(--mute)}
+.hero>.wrap>*:nth-child(5){animation-delay:.4s}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -109,9 +114,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem
     <h1>I'm Riken. I make <em>networks</em> and servers behave.</h1>
     <p class="lede">I'm a systems and networking graduate from Georgian College. I like building things that stay up, locking them down, and then scripting away the boring parts. <b>Before IT, I was a journalist.</b> That's why I explain things in plain words.</p>
     <div class="cta">
-      <a class="btn fill" href="mailto:riken@batmanofbarrie.com">Email me</a>
+      <a class="btn fill" href="mailto:rikenpatel2005@gmail.com">Email me</a>
       <a class="btn" href="#built">See what I've built</a>
     </div>
+    <div class="hero-thought"><span class="lab">Today's thought</span><blockquote id="tq">Loading today's thought&hellip;</blockquote><p id="ta"></p></div>
   </div>
 </div>
 
@@ -182,7 +188,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem
 <section class="say" id="hello"><div class="wrap">
   <h2>Let's talk.</h2>
   <p>I'm looking for my first full-time IT or networking role, where I can work on real systems. If you're building a team, or just want to talk networking, write to me.</p>
-  <a class="mail" href="mailto:riken@batmanofbarrie.com">riken@batmanofbarrie.com</a>
+  <a class="mail" href="mailto:rikenpatel2005@gmail.com">rikenpatel2005@gmail.com</a>
   <div class="links">
     <a class="btn" href="https://linkedin.com/in/riken-patel007" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     <a class="btn" href="https://github.com/regalriken" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -216,6 +222,21 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem
   h.addEventListener('pointerleave',function(){m.x=m.y=-999});
   addEventListener('resize',function(){size();if(still)draw()});
   size();draw();
+})();
+</script>
+<script>
+(function(){
+  var F=[["A cheerful heart is good medicine.","Proverbs 17:22"],["Talk is cheap. Show me the code.","Linus Torvalds"],["Security is a process, not a product.","Bruce Schneier"],["The best way to predict the future is to invent it.","Alan Kay"],["The only way to do great work is to love what you do.","Steve Jobs"],["Stay hungry, stay foolish.","Steve Jobs"],["Trust in the Lord with all your heart.","Proverbs 3:5"],["A gentle answer turns away wrath.","Proverbs 15:1"],["Be still, and know that I am God.","Psalm 46:10"],["Be strong and courageous.","Joshua 1:9"],["Rejoice always.","1 Thessalonians 5:16"],["Let all that you do be done in love.","1 Corinthians 16:14"],["With God all things are possible.","Matthew 19:26"],["A journey of a thousand miles begins with a single step.","Lao Tzu"],["The unexamined life is not worth living.","Socrates"],["We are what we repeatedly do. Excellence, then, is not an act, but a habit.","Will Durant"],["Premature optimization is the root of all evil.","Donald Knuth"],["Simplicity is prerequisite for reliability.","Edsger Dijkstra"],["Programs must be written for people to read, and only incidentally for machines to execute.","Harold Abelson"],["Make it work, make it right, make it fast.","Kent Beck"],["Any sufficiently advanced technology is indistinguishable from magic.","Arthur C. Clarke"],["Knowledge is power.","Francis Bacon"],["Fall seven times, stand up eight.","Japanese proverb"],["Genius is one percent inspiration and ninety-nine percent perspiration.","Thomas Edison"],["Debugging is twice as hard as writing the code in the first place.","Brian Kernighan"],["There are only two hard things in computer science: cache invalidation and naming things.","Phil Karlton"],["Given enough eyeballs, all bugs are shallow.","Eric S. Raymond"],["The network is the computer.","John Gage"],["Plans are worthless, but planning is everything.","Dwight D. Eisenhower"],["An investment in knowledge pays the best interest.","Benjamin Franklin"],["Energy and persistence conquer all things.","Benjamin Franklin"],["Well done is better than well said.","Benjamin Franklin"],["Chance favors the prepared mind.","Louis Pasteur"],["Do the best you can until you know better. Then when you know better, do better.","Maya Angelou"],["Love your neighbor as yourself.","Mark 12:31"],["The Lord is my shepherd; I shall not want.","Psalm 23:1"],["Well begun is half done.","Proverb"],["Practice makes perfect.","Proverb"]];
+  var day=Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5),q=document.getElementById('tq'),a=document.getElementById('ta');
+  function show(t,w){q.textContent='\u201C'+t+'\u201D';a.textContent=w?'\u2014 '+w:''}
+  function fb(){var f=F[day%F.length];show(f[0],f[1])}
+  try{var c=JSON.parse(localStorage.getItem('thought'));if(c&&c.d===day){show(c.t,c.w);return}}catch(e){}
+  function g(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},5000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw 0;return r.json()})}
+  var B='https://dummyjson.com/quotes?limit=1';
+  g(B).then(function(t){if(!t.total)throw 0;return g(B+'&skip='+((day*7919)%t.total))}).then(function(j){
+    var o=j.quotes&&j.quotes[0];if(!o)throw 0;show(o.quote,o.author);
+    try{localStorage.setItem('thought',JSON.stringify({d:day,t:o.quote,w:o.author}))}catch(e){}
+  }).catch(fb);
 })();
 </script>
 </body>
